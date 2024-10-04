@@ -1,0 +1,37 @@
+/* phoneInputDark.css */
+
+.react-tel-input {
+  background-color: #000;
+  color: #ffffff;
+  border-radius: 6px;
+}
+
+.react-tel-input .form-control {
+  background-color: #000;
+  color: #ffffff;
+}
+
+.react-tel-input .flag-dropdown {
+  background-color: #000;
+  border-radius: 6px 0px 0px 6px;
+  border: 1px solid #4d4d4d;
+}
+
+.react-tel-input .country-list {
+  background-color: #000;
+  color: #ffffff;
+}
+
+.react-tel-input .country-list .country {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.react-tel-input .country-list .country:hover {
+  background-color: #555555;
+}
+
+.react-tel-input .country-list .country.highlight {
+  background-color: #555555;
+  color: #ffffff;
+}
