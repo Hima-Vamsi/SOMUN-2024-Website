@@ -442,8 +442,8 @@ export default function RegistrationForm() {
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Registration Details</AlertDialogTitle>
             <AlertDialogDescription>
-              Please confirm that all the information you've provided is
-              correct. By proceeding, you agree to the event's terms and
+              Please confirm that all the information you&apos;ve provided is
+              correct. By proceeding, you agree to the event&apos;s terms and
               conditions.
             </AlertDialogDescription>
           </AlertDialogHeader>

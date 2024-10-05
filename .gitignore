@@ -35,5 +35,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# uploaded images
+# Ignore all files in uploads folder
 public/uploads/*
+# But keep the .gitkeep file
+!public/uploads/.gitkeep

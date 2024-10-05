@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
@@ -33,11 +33,8 @@ export function UnverifiedPayments() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { toast } = useToast();
 
-  useEffect(() => {
-    fetchUnverifiedPayments();
-  }, []);
-
-  const fetchUnverifiedPayments = async () => {
+  // Memoized fetchUnverifiedPayments function to prevent unnecessary re-renders
+  const fetchUnverifiedPayments = useCallback(async () => {
     try {
       const response = await fetch("/api/private/unverified-payments");
       if (!response.ok) throw new Error("Failed to fetch payments");
@@ -51,7 +48,11 @@ export function UnverifiedPayments() {
         variant: "destructive",
       });
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    fetchUnverifiedPayments();
+  }, [fetchUnverifiedPayments]); // Include fetchUnverifiedPayments as a dependency
 
   const handleAuthorizePayment = (payment: Payment) => {
     setSelectedPayment(payment);

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { MongoClient, ObjectId } from "mongodb";
 
 const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
+const client = new MongoClient(uri ?? "");
 
 export async function GET() {
   try {
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
   let client;
   try {
     const { id, transactionId } = await request.json();
-    client = new MongoClient(uri);
+    client = new MongoClient(uri ?? "");
     await client.connect();
     const database = client.db("SOMUN");
     const registrationsCollection = database.collection(

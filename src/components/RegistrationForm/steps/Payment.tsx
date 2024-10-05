@@ -1,18 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
+interface FormData {
+  generatedPaymentId: string;
+  isDelegation: boolean;
+  upiId: string;
+  paymentScreenshot: string;
+}
+
 interface PaymentProps {
-  formData: {
-    generatedPaymentId: string;
-    isDelegation: boolean;
-    upiId: string;
-    paymentScreenshot: string;
-  };
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   handleFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
   fileError: string | null;
 }
@@ -27,17 +29,17 @@ export default function Payment({
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [error, setError] = useState<string | null>(null);
 
+  const generatePaymentId = useCallback(() => {
+    const newPaymentId = Math.random().toString(36).substr(2, 9).toUpperCase();
+    setFormData((prev) => ({ ...prev, generatedPaymentId: newPaymentId }));
+    return newPaymentId;
+  }, [setFormData]);
+
   useEffect(() => {
     if (!formData.generatedPaymentId) {
       generatePaymentId();
     }
-  }, [formData.generatedPaymentId]);
-
-  const generatePaymentId = () => {
-    const newPaymentId = Math.random().toString(36).substr(2, 9).toUpperCase();
-    setFormData((prev) => ({ ...prev, generatedPaymentId: newPaymentId }));
-    return newPaymentId;
-  };
+  }, [formData.generatedPaymentId, generatePaymentId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -112,7 +114,7 @@ export default function Payment({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="upiId" className="text-md font-semibold">
-                  UPI ID (You're paying from)
+                  UPI ID (You&apos;re paying from)
                 </Label>
                 <Input
                   id="upiId"

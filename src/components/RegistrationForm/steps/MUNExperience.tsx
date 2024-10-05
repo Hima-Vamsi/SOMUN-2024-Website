@@ -18,7 +18,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { PlusCircle, X } from "lucide-react";
+import { X } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function MUNExperience({ formData, setFormData }) {

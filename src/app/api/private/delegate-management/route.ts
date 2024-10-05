@@ -4,7 +4,7 @@ import { MongoClient } from "mongodb";
 const uri = process.env.MONGODB_URI;
 
 export async function GET() {
-  const client = new MongoClient(uri);
+  const client = new MongoClient(uri ?? "");
 
   try {
     await client.connect();
@@ -16,8 +16,10 @@ export async function GET() {
 
     return NextResponse.json(result);
   } catch (error) {
+    // Cast error to 'Error' to access the message
+    const err = error as Error;
     return NextResponse.json(
-      { error: "Error fetching data", details: error.message },
+      { error: "Error fetching data", details: err.message },
       { status: 500 }
     );
   } finally {
