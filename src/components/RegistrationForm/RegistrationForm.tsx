@@ -78,7 +78,6 @@ interface FormData {
   dietaryRestrictions: string;
   paymentVerified: boolean;
   generatedPaymentId: string;
-  actualTransactionId: string;
   paymentScreenshot: string | null;
   upiId: string;
 }
@@ -109,7 +108,6 @@ export default function RegistrationForm() {
     dietaryRestrictions: "",
     paymentVerified: false,
     generatedPaymentId: "",
-    actualTransactionId: "",
     paymentScreenshot: null,
     upiId: "",
   });

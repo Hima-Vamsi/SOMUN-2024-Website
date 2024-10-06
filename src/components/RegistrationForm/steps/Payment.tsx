@@ -1,8 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+"use client";
+
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import { ImageKitProvider, IKUpload } from "imagekitio-next";
 
@@ -27,6 +30,8 @@ export default function Payment({
   const [qrCodeGenerated, setQrCodeGenerated] = useState(false);
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const ikUploadRef = useRef<HTMLInputElement>(null);
 
   const generatePaymentId = useCallback(() => {
     const newPaymentId = Math.random().toString(36).substr(2, 9).toUpperCase();
@@ -77,6 +82,7 @@ export default function Payment({
 
   const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
   const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
+
   const authenticator = async () => {
     try {
       const response = await fetch("/api/auth");
@@ -98,28 +104,39 @@ export default function Payment({
 
   const onError = (err) => {
     console.log("Error", err);
+    setError("File upload failed. Please try again.");
+    setUploadProgress(0);
   };
 
   const onSuccess = (res) => {
     console.log("File upload success:", res);
     setFormData((prev) => ({
       ...prev,
-      paymentScreenshot: res.url, // Store the uploaded file's URL in formData
+      paymentScreenshot: res.url,
     }));
+    setUploadProgress(100);
   };
 
-  // Validate file for images only and size limit (5MB)
-  const validateFile = (file) => {
+  const onUploadProgress = (progress: { loaded: number; total: number }) => {
+    setUploadProgress(Math.round((progress.loaded / 2 / progress.total) * 100));
+  };
+
+  const onUploadStart = () => {
+    setUploadProgress(0);
+    setError(null);
+  };
+
+  const validateFile = (file: File) => {
     const validFileTypes = ["image/jpeg", "image/png", "image/jpg"];
     const isValidType = validFileTypes.includes(file.type);
     const isValidSize = file.size <= 5 * 1024 * 1024; // 5MB
 
     if (!isValidType) {
-      alert("File should be an image (jpeg, jpg, png)");
+      setError("File should be an image (jpeg, jpg, png)");
       return false;
     }
     if (!isValidSize) {
-      alert("File size should be less than 5MB");
+      setError("File size should be less than 5MB");
       return false;
     }
 
@@ -182,19 +199,38 @@ export default function Payment({
                   publicKey={publicKey}
                   authenticator={authenticator}
                 >
-                  <h2>File upload</h2>
+                  <h2 className="text-lg font-semibold">
+                    Upload Payment Screenshot
+                  </h2>
                   <IKUpload
                     fileName="screenshot.png"
-                    folder={"/payment-screenshots"}
+                    folder="/payment-screenshots"
                     useUniqueFileName={true}
                     validateFile={validateFile}
                     onError={onError}
                     onSuccess={onSuccess}
+                    onUploadProgress={onUploadProgress}
+                    onUploadStart={onUploadStart}
                     accept="image/*"
+                    style={{ display: "none" }}
+                    ref={ikUploadRef}
                   />
+                  <Button onClick={() => ikUploadRef.current?.click()}>
+                    Select File
+                  </Button>
+
+                  {uploadProgress > 0 && (
+                    <div className="mt-2">
+                      <Progress value={uploadProgress} className="w-full" />
+                      <p className="text-sm text-gray-500 mt-1">
+                        Uploading: {uploadProgress}%
+                      </p>
+                    </div>
+                  )}
                   {fileError && (
                     <p className="text-red-500 text-sm">{fileError}</p>
                   )}
+                  {error && <p className="text-red-500 text-sm">{error}</p>}
                   {formData.paymentScreenshot && (
                     <div className="mt-2">
                       <a

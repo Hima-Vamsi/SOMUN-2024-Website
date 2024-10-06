@@ -80,7 +80,6 @@ export async function POST(request: Request) {
     const newRegistration = {
       ...unverifiedPayment,
       transactionId,
-      qrCode: qrCodeDataUrl,
     };
 
     await verifiedRegistrationsCollection.insertOne(newRegistration);

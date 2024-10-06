@@ -1,28 +1,68 @@
-import { NextResponse } from "next/server";
-import { MongoClient } from "mongodb";
+import { NextRequest, NextResponse } from "next/server";
+import { MongoClient, Db, Collection } from "mongodb";
 
 const uri = process.env.MONGODB_URI;
 
-export async function GET() {
-  const client = new MongoClient(uri ?? "");
+if (!uri) {
+  throw new Error("Please define the MONGODB_URI environment variable");
+}
 
+let cachedClient: MongoClient | null = null;
+let cachedDb: Db | null = null;
+
+async function connectToDatabase(): Promise<{
+  client: MongoClient;
+  db: Db;
+  collection: Collection;
+}> {
+  if (cachedClient && cachedDb) {
+    return {
+      client: cachedClient,
+      db: cachedDb,
+      collection: cachedDb.collection("verified_registrations"),
+    };
+  }
+
+  const client = new MongoClient(uri);
+  await client.connect();
+  const db = client.db("SOMUN");
+
+  cachedClient = client;
+  cachedDb = db;
+
+  return {
+    client,
+    db,
+    collection: db.collection("verified_registrations"),
+  };
+}
+
+export async function POST(request: NextRequest) {
   try {
-    await client.connect();
+    const { participantType, registrationType } = await request.json();
 
-    const database = client.db("SOMUN");
-    const collection = database.collection("verified_registrations");
+    if (!participantType || !registrationType) {
+      return NextResponse.json(
+        { error: "Missing required parameters" },
+        { status: 400 }
+      );
+    }
 
-    const result = await collection.find({}).toArray();
+    const { collection } = await connectToDatabase();
+
+    const result = await collection
+      .find({
+        participantType: participantType.toLowerCase(),
+        registrationType: registrationType.toLowerCase(),
+      })
+      .toArray();
 
     return NextResponse.json(result);
   } catch (error) {
-    // Cast error to 'Error' to access the message
-    const err = error as Error;
+    console.error("Database query error:", error);
     return NextResponse.json(
-      { error: "Error fetching data", details: err.message },
+      { error: "Error fetching data", details: (error as Error).message },
       { status: 500 }
     );
-  } finally {
-    await client.close();
   }
 }

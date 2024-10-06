@@ -60,7 +60,7 @@ export default function CommitteeSelection({ formData, setFormData }) {
 
       if (isAlreadySelected) {
         setAlertMessage(
-          "This committee has already been selected. Please choose a different committee."
+          "You have already selected this committee as one of your preferences, please choose another committee as your preference."
         );
         setShowAlert(true);
         return;
