@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { MongoClient, ObjectId } from "mongodb";
-import { promises as fs } from "fs";
-import path from "path";
 
 const uri = process.env.MONGODB_URI;
 
@@ -19,7 +17,7 @@ export async function DELETE(
       "unverified_registrations"
     );
 
-    // Find the registration first to get the paymentScreenshot path
+    // Find the registration
     const registration = await registrationsCollection.findOne({
       _id: new ObjectId(id),
     });
@@ -29,22 +27,6 @@ export async function DELETE(
         { error: "Registration not found" },
         { status: 404 }
       );
-    }
-
-    // Delete the payment screenshot file if it exists
-    if (registration.paymentScreenshot) {
-      const filePath = path.join(
-        process.cwd(),
-        "/public",
-        registration.paymentScreenshot
-      );
-      try {
-        await fs.unlink(filePath);
-        console.log(`Deleted file: ${filePath}`);
-      } catch (fileError) {
-        console.error(`Error deleting file: ${filePath}`, fileError);
-        // We'll continue with the database deletion even if file deletion fails
-      }
     }
 
     // Delete the registration from the database
@@ -61,7 +43,7 @@ export async function DELETE(
 
     return NextResponse.json({
       success: true,
-      message: "Registration and payment screenshot deleted successfully",
+      message: "Registration deleted successfully",
     });
   } catch (error) {
     console.error("Error deleting registration:", error);

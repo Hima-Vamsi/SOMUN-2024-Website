@@ -164,7 +164,7 @@ export function UnverifiedPayments() {
               <p>
                 <strong>Image:</strong>{" "}
                 <a
-                  href={`${window.location.origin}${payment.paymentScreenshot}`}
+                  href={`${payment.paymentScreenshot}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:underline"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -120,7 +120,9 @@ export default function RegistrationForm() {
   const [progress, setProgress] = useState(0);
   const [submissionComplete, setSubmissionComplete] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [fileError, setFileError] = useState("");
+
+  const fileError =
+    "Please upload a valid image of the payment and wait for it to upload.";
 
   useEffect(() => {
     if (
@@ -308,48 +310,6 @@ export default function RegistrationForm() {
     }
   };
 
-  const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      showAlert("Please upload a payment screenshot.");
-      return;
-    }
-    if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        setFileError("File size must be less than 10MB");
-        return;
-      }
-      if (!file.type.startsWith("image/")) {
-        setFileError("Only image files are allowed");
-        return;
-      }
-      setFileError("");
-
-      const formData = new FormData();
-      formData.append("file", file);
-
-      try {
-        const response = await fetch("/api/register/save-screenshot", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (response.ok) {
-          const { url } = await response.json();
-          setFormData((prev) => ({
-            ...prev,
-            paymentScreenshot: url,
-          }));
-        } else {
-          setFileError("Error uploading file");
-        }
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        setFileError("Error uploading file");
-      }
-    }
-  };
-
   const validateEmail = (email: string) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
@@ -387,7 +347,6 @@ export default function RegistrationForm() {
           <Payment
             formData={formData}
             setFormData={setFormData}
-            handleFileUpload={handleFileUpload}
             fileError={fileError}
           />
         );
