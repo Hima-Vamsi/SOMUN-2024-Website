@@ -81,6 +81,7 @@ export default function ExcelDownloader() {
       } else {
         return {
           ...baseFields,
+          "IP Preference": item.ipType,
           "IP Link 1": item.ipLinks[0] || "",
           "IP Link 2": item.ipLinks[1] || "",
           "IP Link 3": item.ipLinks[2] || "",

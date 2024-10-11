@@ -25,7 +25,7 @@ const committees = [
   "DISEC",
   "Lok Sabha",
   "Press Corps",
-  "Crisis Committee",
+  "Historical Crisis Committee",
   "UNOOSA",
   "Committee X",
 ];
@@ -40,7 +40,7 @@ const committeeLinks = {
     "https://1drv.ms/x/c/818b70d81da79c13/EVTu2fmlrFNHlC4XeQCy3R4BIeNZrn_2I5OU08gZlKtkFQ?e=KsOaG2",
   "Press Corps":
     "https://1drv.ms/x/c/818b70d81da79c13/EbiE1HL5suBNkybPd9GXQsUBMu8uMwx-ohPofCIUZaZmAg?e=SaEdof",
-  "Crisis Committee":
+  "Historical Crisis Committee":
     "https://1drv.ms/x/c/818b70d81da79c13/Ea9D4P9CKCZHvVLtSAZoXFwB0RTZcvqaeHMUft1V8aLQ-Q?e=dUUgl7",
   UNOOSA:
     "https://1drv.ms/x/c/818b70d81da79c13/ERVpC6bPwzVIkW9k9sOtG64BLH-OnVGjDiJoCzrLVu33ng?e=KjGTE6",

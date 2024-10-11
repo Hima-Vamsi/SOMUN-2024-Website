@@ -20,6 +20,14 @@ export default function Review({ formData }) {
           ? "Delegate"
           : "International Press",
     },
+    ...(formData.participantType === "ip" && formData.ipType
+      ? [
+          {
+            label: "IP Type",
+            value: formData.ipType,
+          },
+        ]
+      : []),
   ];
 
   const committeeDetails =

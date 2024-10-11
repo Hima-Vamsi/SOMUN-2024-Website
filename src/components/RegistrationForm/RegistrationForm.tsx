@@ -62,6 +62,7 @@ interface FormData {
   schoolOrOrganization: string;
   headDelegateName: string;
   participantType: string;
+  ipType: string;
   registrationType: string;
   delegationSize: string;
   firstChoice: { committee: string; country: string };
@@ -95,6 +96,7 @@ export default function RegistrationForm() {
     schoolOrOrganization: "",
     headDelegateName: "",
     participantType: "",
+    ipType: "",
     registrationType: "early bird",
     delegationSize: "",
     firstChoice: { committee: "", country: "" },
@@ -164,7 +166,10 @@ export default function RegistrationForm() {
     const steps = formData.participantType === "ip" ? ipSteps : delegateSteps;
     switch (steps[step - 1]) {
       case "Participant Type":
-        return formData.participantType !== "";
+        return (
+          formData.participantType !== "" &&
+          (formData.participantType !== "ip" || formData.ipType !== "")
+        );
       case "Personal Details":
         return (
           formData.name && formData.email && formData.phone && formData.school
