@@ -60,7 +60,7 @@ const committeesData = [
   },
   {
     name: "Lok Sabha",
-    logo: "/Committee Logos/LOK SABHA.png",
+    logo: "/Committee Logos/Lok Sabha.png",
     agenda: "Waqf Amendment Bill 2024",
     description:
       "The Lok Sabha is the lower house of India's bicameral Parliament, representing and debating the interests of the Indian people.",
