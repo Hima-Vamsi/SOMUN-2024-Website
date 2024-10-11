@@ -119,10 +119,10 @@ export default function CommitteeSelection({ formData, setFormData }) {
                     rel="noopener noreferrer"
                     className="text-blue-500 hover:underline"
                   >
-                    Available Countries
+                    Available Allocations
                   </a>
                 ) : (
-                  <span>Available Countries</span>
+                  <span>Available Allocations</span>
                 )}
               </div>
               <Label

@@ -5,12 +5,6 @@ import { useState } from "react";
 export default function Review({ formData }) {
   const [openDialog, setOpenDialog] = useState(null);
 
-  const participationType = formData.participantType.toUpperCase();
-
-  const participantType = [
-    { label: "Participation Type", value: participationType },
-  ];
-
   const personalDetails = [
     { label: "Name", value: formData.name },
     { label: "Email", value: formData.email },
@@ -86,12 +80,6 @@ export default function Review({ formData }) {
         <CardTitle>Review Your Information</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <ReviewSection
-          title="Participation Type"
-          content={participantType}
-          openDialog={openDialog}
-          setOpenDialog={setOpenDialog}
-        />
         <ReviewSection
           title="Personal Details"
           content={personalDetails}

@@ -45,8 +45,7 @@ export default function Home() {
         "The Impact of Media Bias on Public Perception and its Role in Shaping Political and Social Narratives.",
     },
     {
-      name: "Internationl Press",
-      message: "No Agenda",
+      name: "International Press",
     },
   ];
 
@@ -73,9 +72,9 @@ export default function Home() {
                   Register Now
                 </Button>
               </Link>
-              <Link href="/our-team">
+              <Link href="/committees">
                 <Button size="lg" variant="outline" className="border-2">
-                  Meet Our Team
+                  Committees
                 </Button>
               </Link>
             </div>

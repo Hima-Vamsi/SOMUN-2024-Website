@@ -224,6 +224,11 @@ export default function Payment({
                       </p>
                     </div>
                   )}
+                  {uploadProgress == 100 && (
+                    <div className="mt-2">
+                      <p className="text-green-500 text-sm">File uploaded!</p>
+                    </div>
+                  )}
                   {fileError && (
                     <p className="text-red-500 text-sm">{fileError}</p>
                   )}

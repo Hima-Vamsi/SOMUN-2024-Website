@@ -1,7 +1,5 @@
-import React from "react";
+import PDFViewer from "@/components/pdf-viewer";
 
-const termsAndConditions = () => {
-  return <div>TO BE ADDED</div>;
-};
-
-export default termsAndConditions;
+export default function Page() {
+  return <PDFViewer />;
+}
