@@ -1,14 +1,36 @@
-export default function PDFViewer() {
+"use client";
+
+import { Viewer, Worker } from "@react-pdf-viewer/core";
+import "@react-pdf-viewer/core/lib/styles/index.css";
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import { SpecialZoomLevel } from "@react-pdf-viewer/core";
+
+const PdfViewer = ({ url }: { url: string }) => {
+  const defaultLayoutPluginInstance = defaultLayoutPlugin({
+    toolbarPlugin: {
+      fullScreenPlugin: {
+        onEnterFullScreen: () => {
+          return SpecialZoomLevel.PageFit;
+        },
+        onExitFullScreen: () => {
+          return SpecialZoomLevel.PageFit;
+        },
+      },
+    },
+  });
+
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center p-4">
-      <h1 className="text-2xl font-bold mb-4">
-        SOMUN 2024 Terms and Conditions
-      </h1>
-      <iframe
-        src="/SOMUN 2024 Terms and Conditions.pdf"
-        className="w-full max-w-4xl h-[80vh] border rounded-lg shadow-lg"
-        title="SOMUN 2024 Terms and Conditions"
-      />
+    <div className="h-screen w-screen">
+      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
+        <Viewer
+          fileUrl={url}
+          plugins={[defaultLayoutPluginInstance]}
+          defaultScale={1}
+        />
+      </Worker>
     </div>
   );
-}
+};
+
+export default PdfViewer;

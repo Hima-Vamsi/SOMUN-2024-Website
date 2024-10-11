@@ -21,6 +21,8 @@
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.2",
+    "@react-pdf-viewer/core": "^3.12.0",
+    "@react-pdf-viewer/default-layout": "^3.12.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "imagekitio-next": "^1.0.0",

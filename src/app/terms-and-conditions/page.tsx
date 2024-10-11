@@ -1,5 +1,9 @@
-import PDFViewer from "@/components/pdf-viewer";
-
-export default function Page() {
-  return <PDFViewer />;
-}
+import PdfViewer from "@/components/pdf-viewer";
+const termsAndConditions = () => {
+  return (
+    <>
+      <PdfViewer url={"/SOMUN 2024 Terms and Conditions.pdf"} />
+    </>
+  );
+};
+export default termsAndConditions;
