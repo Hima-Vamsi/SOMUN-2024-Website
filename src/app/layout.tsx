@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
 import { NavbarComponent } from "@/components/navbar";
+import { FooterComponent } from "@/components/footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,15 +30,12 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body>
+      <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+        <body className="flex flex-col min-h-screen antialiased">
           <NavbarComponent />
-          <div
-            className={`${geistSans.variable} ${geistMono.variable} antialiased flex items-start min-h-screen pt-8`}
-          >
-            {children}
-            <Toaster />
-          </div>
+          <main className="flex-grow w-full">{children}</main>
+          <FooterComponent />
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

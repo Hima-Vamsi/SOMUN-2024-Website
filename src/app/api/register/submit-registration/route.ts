@@ -40,13 +40,12 @@ export async function POST(request: Request) {
     const mailOptions = {
       from: '"Katta Hima Vamsi" <' + EMAIL_USER + ">",
       to: body.email,
-      subject: "SOMUN Registration Confirmation",
+      subject: "SOMUN Registration Successful",
       html: `
         <h1>Thank you for registering for SOMUN!</h1>
         <p>Dear ${body.name},</p>
-        <p>We have received your application for SOMUN. <strong>Please note that this email is not a confirmation of your allocation and is just to inform you that your application has been received.</strong></p>
-        <p>You will receive another email once allocations are announced with your allocation and your ticket.</p>
-        <p>If you have any questions, please don't hesitate to contact us.</p>
+        <p>Thank you for submitting the registration form for the upcoming Silver Oaks Model United Nations. We have received your form and will review it shortly.</p>
+        <p>We will get back to you soon with further details regarding your participation. If you have any questions in the meantime, please feel free to reach out to us by emaining hvkatta@gmail.com <strong>(OR)</strong> somun@hyd.silveroaks.co.in <strong>(OR)</strong> messaging +91 9398497723</p>
         <p>Best regards,</p>
         <p>The SOMUN Team</p>
       `,

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import Select, { components } from "react-select";
-import { ChevronDown } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -12,6 +11,13 @@ import {
   AlertDialogFooter,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const committees = [
   "UNHRC",
@@ -21,26 +27,25 @@ const committees = [
   "Press Corps",
   "Crisis Committee",
   "UNOOSA",
-  "ψ",
+  "Committee X",
 ];
 
-const committeeCountries = {
-  UNHRC: ["Enter Countries 1", "Enter Countries 2"],
-  WHO: ["Enter Countries 1", "Enter Countries 2"],
-  DISEC: ["Enter Countries 1", "Enter Countries 2"],
-  "Lok Sabha": ["Enter Countries 1", "Enter Countries 2"],
-  "Press Corps": ["Enter Countries 1", "Enter Countries 2"],
-  "Crisis Committee": ["Enter Countries 1", "Enter Countries 2"],
-  UNOOSA: ["Enter Countries 1", "Enter Countries 2"],
-  ψ: ["Enter Countries 1", "Enter Countries 2"],
-};
-
-const DropdownIndicator = (props) => {
-  return (
-    <components.DropdownIndicator {...props}>
-      <ChevronDown className="h-4 w-4" />
-    </components.DropdownIndicator>
-  );
+const committeeLinks = {
+  UNHRC:
+    "https://1drv.ms/x/c/818b70d81da79c13/EQB2Ee53p5tEiPUbS6eD9EsB_JISnLAC1DpL90CNcaIbvw?e=eMDAgY",
+  WHO: "https://1drv.ms/x/c/818b70d81da79c13/EV2MkhqSdnRJqImL4AZLYy8BvOZm4S6hnspwaq2Q_TXPNA?e=vMFU3c",
+  DISEC:
+    "https://1drv.ms/x/c/818b70d81da79c13/EVt3h2EIe1xPgpBAbP174ukBmBtMVlhTfTOqkS4Y_cdqAw?e=hMXEAj",
+  "Lok Sabha":
+    "https://1drv.ms/x/c/818b70d81da79c13/EVTu2fmlrFNHlC4XeQCy3R4BIeNZrn_2I5OU08gZlKtkFQ?e=KsOaG2",
+  "Press Corps":
+    "https://1drv.ms/x/c/818b70d81da79c13/EbiE1HL5suBNkybPd9GXQsUBMu8uMwx-ohPofCIUZaZmAg?e=SaEdof",
+  "Crisis Committee":
+    "https://1drv.ms/x/c/818b70d81da79c13/Ea9D4P9CKCZHvVLtSAZoXFwB0RTZcvqaeHMUft1V8aLQ-Q?e=dUUgl7",
+  UNOOSA:
+    "https://1drv.ms/x/c/818b70d81da79c13/ERVpC6bPwzVIkW9k9sOtG64BLH-OnVGjDiJoCzrLVu33ng?e=KjGTE6",
+  "Committee X":
+    "https://1drv.ms/x/c/818b70d81da79c13/EdHzFoeI0xxPh5hfQuG5W8oBDFJXRCK2ut76-BCKgF1N4Q?e=BfaCoL",
 };
 
 export default function CommitteeSelection({ formData, setFormData }) {
@@ -77,9 +82,9 @@ export default function CommitteeSelection({ formData, setFormData }) {
     <>
       <CardHeader>
         <CardTitle>Committee Selection</CardTitle>
-        <text className="text-sm font-extralight">
+        <p className="text-sm font-extralight">
           Please note you cannot repeat committees in different preferences.
-        </text>
+        </p>
       </CardHeader>
       <CardContent className="space-y-6">
         {["firstChoice", "secondChoice", "thirdChoice"].map((choice, index) => (
@@ -88,108 +93,52 @@ export default function CommitteeSelection({ formData, setFormData }) {
             <div className="space-y-2">
               <Label htmlFor={`${choice}-committee`}>Committee</Label>
               <Select
-                id={`${choice}-committee`}
-                options={committees.map((committee) => ({
-                  value: committee,
-                  label: committee,
-                }))}
-                value={
-                  formData[choice].committee
-                    ? {
-                        value: formData[choice].committee,
-                        label: formData[choice].committee,
-                      }
-                    : null
+                value={formData[choice].committee}
+                onValueChange={(value) =>
+                  handleChoiceChange(choice, "committee", value)
                 }
-                onChange={(selectedOption) =>
-                  handleChoiceChange(choice, "committee", selectedOption.value)
-                }
-                placeholder="Select committee"
-                components={{
-                  DropdownIndicator,
-                }}
-                styles={{
-                  control: (provided) => ({
-                    ...provided,
-                    backgroundColor: "#333333",
-                    borderColor: "#4d4d4d",
-                    color: "#fff",
-                  }),
-                  menu: (provided) => ({
-                    ...provided,
-                    backgroundColor: "#333333",
-                  }),
-                  option: (provided, state) => ({
-                    ...provided,
-                    backgroundColor: state.isSelected
-                      ? "#4d4d4d"
-                      : state.isFocused
-                      ? "#404040"
-                      : "#333333",
-                    color: "#fff",
-                  }),
-                  singleValue: (provided) => ({
-                    ...provided,
-                    color: "#fff",
-                  }),
-                }}
-              />
+              >
+                <SelectTrigger id={`${choice}-committee`}>
+                  <SelectValue placeholder="Select committee" />
+                </SelectTrigger>
+                <SelectContent>
+                  {committees.map((committee) => (
+                    <SelectItem key={committee} value={committee}>
+                      {committee}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor={`${choice}-country`}>Country</Label>
-              <Select
+              <div className="mb-2">
+                {formData[choice].committee ? (
+                  <a
+                    href={committeeLinks[formData[choice].committee]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                  >
+                    Available Countries
+                  </a>
+                ) : (
+                  <span>Available Countries</span>
+                )}
+              </div>
+              <Label
+                htmlFor={`${choice}-country`}
+                className="text-sm text-muted-foreground"
+              >
+                Enter your preferred country from the list above
+              </Label>
+              <Input
                 id={`${choice}-country`}
-                options={
-                  formData[choice].committee
-                    ? committeeCountries[formData[choice].committee].map(
-                        (country) => ({
-                          value: country,
-                          label: country,
-                        })
-                      )
-                    : []
+                value={formData[choice].country || ""}
+                onChange={(e) =>
+                  handleChoiceChange(choice, "country", e.target.value)
                 }
-                value={
-                  formData[choice].country
-                    ? {
-                        value: formData[choice].country,
-                        label: formData[choice].country,
-                      }
-                    : null
-                }
-                onChange={(selectedOption) =>
-                  handleChoiceChange(choice, "country", selectedOption.value)
-                }
-                placeholder="Select country"
-                isDisabled={!formData[choice].committee}
-                components={{
-                  DropdownIndicator,
-                }}
-                styles={{
-                  control: (provided) => ({
-                    ...provided,
-                    backgroundColor: "#333333",
-                    borderColor: "#4d4d4d",
-                    color: "#fff",
-                  }),
-                  menu: (provided) => ({
-                    ...provided,
-                    backgroundColor: "#333333",
-                  }),
-                  option: (provided, state) => ({
-                    ...provided,
-                    backgroundColor: state.isSelected
-                      ? "#4d4d4d"
-                      : state.isFocused
-                      ? "#404040"
-                      : "#333333",
-                    color: "#fff",
-                  }),
-                  singleValue: (provided) => ({
-                    ...provided,
-                    color: "#fff",
-                  }),
-                }}
+                placeholder="Enter country"
+                disabled={!formData[choice].committee}
               />
             </div>
           </div>

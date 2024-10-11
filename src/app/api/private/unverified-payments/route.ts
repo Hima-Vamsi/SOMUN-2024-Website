@@ -102,8 +102,10 @@ export async function POST(request: Request) {
       to: unverifiedPayment.email,
       subject: "Payment Verified: SOMUN",
       html: `<p>Dear ${unverifiedPayment.name},</p>
-        <p>Your payment has been successfully verified. Your unique QR code is attached below.</p>
-        <p>Thank you for your registration.</p>
+        <p>We are pleased to inform you that your payment for the silver oaks Model United Nations has been successfully verified. Thank you for your prompt response.</p>
+        <p>We have attached below is your ticket, represented by the QR code. Please ensure to keep it handy, as you will need it for entry to the event.</p>
+        <p>If you have any questions, please feel free to reach out to us by emaining hvkatta@gmail.com <strong>(OR)</strong> somun@hyd.silveroaks.co.in <strong>(OR)</strong> messaging +91 9398497723</p>
+        <p>We look forward to seeing you at the event!</p>
         <p>Sincerely,<br />The SOMUN Team</p>`,
       attachments: [
         {

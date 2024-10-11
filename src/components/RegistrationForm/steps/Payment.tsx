@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { Cog } from "lucide-react";
 import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -54,8 +55,8 @@ export default function Payment({
     const newPaymentId = generatePaymentId();
     setError(null);
 
-    const paymentData = `upi://pay?pa=9398497723@idfcfirst&pn=Hima Vamsi&am=${
-      formData.isDelegation ? "1" : "2"
+    const paymentData = `upi://pay?pa=vizag70953699@barodampay&pn=VIZAG EDUCATIONAL INSTITUTIONS PVT LTD&am=${
+      formData.isDelegation ? "2200" : "2400"
     }&tn=${newPaymentId}`;
 
     try {
@@ -161,12 +162,7 @@ export default function Payment({
               />
             ) : (
               <div className="absolute inset-0 bg-[#333333] flex items-center justify-center">
-                <Image
-                  src="/dog.png"
-                  alt="Placeholder Image"
-                  width={200}
-                  height={200}
-                />
+                <Cog className="h-[200px] w-[200px]" />
               </div>
             )}
           </div>
@@ -176,8 +172,9 @@ export default function Payment({
             </Button>
           ) : (
             <div className="space-y-4 w-full">
-              <div className="text-center">
-                <p>Amount: ₹{formData.isDelegation ? "1" : "2"}</p>
+              <div className="text-center flex flex-col">
+                <p>vizag70953699@barodampay</p>
+                <p>Amount: ₹{formData.isDelegation ? "2200" : "2400"}</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="upiId" className="text-md font-semibold">

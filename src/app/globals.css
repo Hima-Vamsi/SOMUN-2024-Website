@@ -85,3 +85,7 @@ html::-webkit-scrollbar {
 body {
   overflow-y: scroll;
 }
+
+body.no-scroll {
+  overflow: hidden;
+}

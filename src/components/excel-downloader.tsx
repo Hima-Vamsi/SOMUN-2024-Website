@@ -113,7 +113,7 @@ export default function ExcelDownloader() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="delegate">Delegate</SelectItem>
-            <SelectItem value="ip">IP</SelectItem>
+            <SelectItem value="ip">International Press</SelectItem>
           </SelectContent>
         </Select>
         <Select onValueChange={setRegistrationType}>

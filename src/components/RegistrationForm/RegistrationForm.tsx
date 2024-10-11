@@ -24,7 +24,6 @@ import {
 import { Progress } from "@/components/ui/progress";
 import Link from "next/link";
 import Sidebar from "./Sidebar";
-import DelegationDetails from "./steps/DelegationDetails";
 import ParticipantType from "./steps/ParticipantType";
 import PersonalDetails from "./steps/PersonalDetails";
 import CommitteeSelection from "./steps/CommitteeSelection";
@@ -34,7 +33,6 @@ import Review from "./steps/Review";
 import Payment from "./steps/Payment";
 
 const delegateSteps = [
-  "Delegation Details",
   "Participant Type",
   "Personal Details",
   "Committee Selection",
@@ -45,7 +43,6 @@ const delegateSteps = [
 ];
 
 const ipSteps = [
-  "Delegation Details",
   "Participant Type",
   "Personal Details",
   "MUN Experience",
@@ -80,6 +77,9 @@ interface FormData {
   generatedPaymentId: string;
   paymentScreenshot: string | null;
   upiId: string;
+  day1: boolean;
+  day2: boolean;
+  day3: boolean;
 }
 
 export default function RegistrationForm() {
@@ -110,6 +110,9 @@ export default function RegistrationForm() {
     generatedPaymentId: "",
     paymentScreenshot: null,
     upiId: "",
+    day1: false,
+    day2: false,
+    day3: false,
   });
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [alertDialogOpen, setAlertDialogOpen] = useState(false);
@@ -160,17 +163,6 @@ export default function RegistrationForm() {
   const isStepValid = () => {
     const steps = formData.participantType === "ip" ? ipSteps : delegateSteps;
     switch (steps[step - 1]) {
-      case "Delegation Details":
-        if (!formData.isDelegation) return true;
-        if (formData.isHeadDelegate) {
-          return (
-            formData.representingSchool !== undefined &&
-            formData.schoolOrOrganization !== "" &&
-            formData.delegationSize !== "" &&
-            parseInt(formData.delegationSize, 10) >= 6
-          );
-        }
-        return formData.headDelegateName !== "";
       case "Participant Type":
         return formData.participantType !== "";
       case "Personal Details":
@@ -316,10 +308,6 @@ export default function RegistrationForm() {
   const renderStep = () => {
     const steps = formData.participantType === "ip" ? ipSteps : delegateSteps;
     switch (steps[step - 1]) {
-      case "Delegation Details":
-        return (
-          <DelegationDetails formData={formData} setFormData={setFormData} />
-        );
       case "Participant Type":
         return (
           <ParticipantType formData={formData} setFormData={setFormData} />
@@ -419,7 +407,7 @@ export default function RegistrationForm() {
           </AlertDialogFooter>
           <div className="mt-4 text-sm text-gray-500 text-center">
             <Link
-              href="https://www.privacypolicyonline.com/sample-terms-conditions-template/"
+              href="/terms-and-conditions"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 hover:underline"

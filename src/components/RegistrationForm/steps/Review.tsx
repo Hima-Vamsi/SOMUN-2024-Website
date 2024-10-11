@@ -5,37 +5,10 @@ import { useState } from "react";
 export default function Review({ formData }) {
   const [openDialog, setOpenDialog] = useState(null);
 
-  const delegationDetails = [
-    {
-      label: "Part of Delegation",
-      value: formData.isDelegation ? "Yes" : "No",
-    },
-    ...(formData.isDelegation
-      ? [
-          {
-            label: "Head Delegate",
-            value: formData.isHeadDelegate ? "Yes" : "No",
-          },
-          ...(formData.isHeadDelegate
-            ? [
-                {
-                  label: "Representing School/Organization",
-                  value: formData.representingSchool ? "Yes" : "No",
-                },
-                {
-                  label: "School/Organization Name",
-                  value: formData.schoolOrOrganization,
-                },
-                { label: "Delegation Size", value: formData.delegationSize },
-              ]
-            : [
-                {
-                  label: "Head Delegate Name",
-                  value: formData.headDelegateName,
-                },
-              ]),
-        ]
-      : []),
+  const participationType = formData.participantType.toUpperCase();
+
+  const participantType = [
+    { label: "Participation Type", value: participationType },
   ];
 
   const personalDetails = [
@@ -114,8 +87,8 @@ export default function Review({ formData }) {
       </CardHeader>
       <CardContent className="space-y-4">
         <ReviewSection
-          title="Delegation Details"
-          content={delegationDetails}
+          title="Participation Type"
+          content={participantType}
           openDialog={openDialog}
           setOpenDialog={setOpenDialog}
         />

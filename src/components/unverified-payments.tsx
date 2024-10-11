@@ -22,6 +22,7 @@ interface Payment {
   phone: string;
   generatedPaymentId: string;
   upiId: string;
+  isDelegation: true;
   paymentScreenshot: string;
 }
 
@@ -160,6 +161,10 @@ export function UnverifiedPayments() {
               </p>
               <p>
                 <strong>UPI ID:</strong> {payment.upiId}
+              </p>
+              <p>
+                <strong>Amount:</strong> ₹
+                {payment.isDelegation ? "2200" : "2400"}
               </p>
               <p>
                 <strong>Image:</strong>{" "}
