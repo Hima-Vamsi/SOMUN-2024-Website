@@ -51,6 +51,12 @@ const ipSteps = [
   "Payment",
 ];
 
+const registrationRoundMapping = {
+  "0": "early bird",
+  "1": "round 1",
+  "2": "round 2",
+};
+
 interface FormData {
   name: string;
   email: string;
@@ -97,7 +103,11 @@ export default function RegistrationForm() {
     headDelegateName: "",
     participantType: "",
     ipType: "",
-    registrationType: "early bird",
+    registrationType:
+      registrationRoundMapping[
+        process.env
+          .NEXT_PUBLIC_REGISTRATION_ROUND as keyof typeof registrationRoundMapping
+      ] || "early bird",
     delegationSize: "",
     firstChoice: { committee: "", country: "" },
     secondChoice: { committee: "", country: "" },
@@ -111,7 +121,7 @@ export default function RegistrationForm() {
     paymentVerified: false,
     generatedPaymentId: "",
     paymentScreenshot: null,
-    upiId: "",
+    upiId: "No UPI ID",
     day1: false,
     day2: false,
     day3: false,
@@ -347,7 +357,7 @@ export default function RegistrationForm() {
   };
 
   return (
-    <div className="flex h-[600px] sm:w-[400px] md:w-[700px] lg:w-[800px] mx-auto  border rounded-lg overflow-hidden">
+    <div className="flex h-[600px] sm:w-[400px] md:w-[700px] lg:w-[800px] mx-auto border rounded-lg overflow-hidden">
       <Sidebar
         step={step}
         formData={formData}
@@ -472,8 +482,8 @@ export default function RegistrationForm() {
               <Button onClick={() => (window.location.href = "/")}>
                 Go to Home Page
               </Button>
-              <Button onClick={() => (window.location.href = "/event-details")}>
-                View Event Details
+              <Button onClick={() => (window.location.href = "/committees")}>
+                View Our Committees
               </Button>
             </DialogFooter>
           )}

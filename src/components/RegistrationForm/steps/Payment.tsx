@@ -3,8 +3,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Cog } from "lucide-react";
 import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
@@ -34,9 +32,22 @@ export default function Payment({
   const [uploadProgress, setUploadProgress] = useState(0);
   const ikUploadRef = useRef<HTMLInputElement>(null);
 
+  const delegatePrice =
+    Number(process.env.NEXT_PUBLIC_ROUND_DELEGATE_PRICE) || 2400;
+  const delegationPrice =
+    Number(process.env.NEXT_PUBLIC_ROUND_DELEGATION_PRICE) || 2200;
+  const upiPaymentAddress =
+    process.env.NEXT_PUBLIC_UPI_PAYMENT_ADDRESS || "yourupi@upi";
+  const upiPaymentAddressName =
+    process.env.NEXT_PUBLIC_UPI_PAYMENT_ADDRESS_NAME || "Your UPI Name";
+
   const generatePaymentId = useCallback(() => {
     const newPaymentId = Math.random().toString(36).substr(2, 9).toUpperCase();
-    setFormData((prev) => ({ ...prev, generatedPaymentId: newPaymentId }));
+    setFormData((prev) => ({
+      ...prev,
+      generatedPaymentId: newPaymentId,
+      upiId: "No UPI ID",
+    }));
     return newPaymentId;
   }, [setFormData]);
 
@@ -46,18 +57,14 @@ export default function Payment({
     }
   }, [formData.generatedPaymentId, generatePaymentId]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
   const handleQRCodeGeneration = async () => {
     const newPaymentId = generatePaymentId();
     setError(null);
 
-    const paymentData = `upi://pay?pa=vizag70953699@barodampay&pn=VIZAG EDUCATIONAL INSTITUTIONS PVT LTD&am=${
-      formData.isDelegation ? "2200" : "2400"
-    }&tn=${newPaymentId}`;
+    const amount = formData.isDelegation ? delegationPrice : delegatePrice;
+    const paymentData = `upi://pay?pa=${upiPaymentAddress}&pn=${encodeURIComponent(
+      upiPaymentAddressName
+    )}&am=${amount}&tn=${newPaymentId}`;
 
     try {
       const response = await fetch("/api/register/generate-payment-qr", {
@@ -173,22 +180,11 @@ export default function Payment({
           ) : (
             <div className="space-y-4 w-full">
               <div className="text-center flex flex-col">
-                <p>vizag70953699@barodampay</p>
-                <p>Amount: ₹{formData.isDelegation ? "2200" : "2400"}</p>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="upiId" className="text-md font-semibold">
-                  UPI ID (You&apos;re paying from)
-                </Label>
-                <Input
-                  id="upiId"
-                  name="upiId"
-                  value={formData.upiId}
-                  onChange={handleInputChange}
-                  placeholder="Enter your UPI ID"
-                  required
-                  maxLength={50}
-                />
+                <p>{upiPaymentAddress}</p>
+                <p>
+                  Amount: ₹
+                  {formData.isDelegation ? delegationPrice : delegatePrice}
+                </p>
               </div>
               <div className="space-y-2">
                 <ImageKitProvider

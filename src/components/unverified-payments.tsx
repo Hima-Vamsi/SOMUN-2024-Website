@@ -22,7 +22,7 @@ interface Payment {
   phone: string;
   generatedPaymentId: string;
   upiId: string;
-  isDelegation: true;
+  isDelegation: boolean;
   paymentScreenshot: string;
 }
 
@@ -34,7 +34,11 @@ export function UnverifiedPayments() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { toast } = useToast();
 
-  // Memoized fetchUnverifiedPayments function to prevent unnecessary re-renders
+  const delegatePrice =
+    Number(process.env.NEXT_PUBLIC_ROUND_DELEGATE_PRICE) || 2400;
+  const delegationPrice =
+    Number(process.env.NEXT_PUBLIC_ROUND_DELEGATION_PRICE) || 2200;
+
   const fetchUnverifiedPayments = useCallback(async () => {
     try {
       const response = await fetch("/api/private/unverified-payments");
@@ -53,7 +57,7 @@ export function UnverifiedPayments() {
 
   useEffect(() => {
     fetchUnverifiedPayments();
-  }, [fetchUnverifiedPayments]); // Include fetchUnverifiedPayments as a dependency
+  }, [fetchUnverifiedPayments]);
 
   const handleAuthorizePayment = (payment: Payment) => {
     setSelectedPayment(payment);
@@ -164,7 +168,7 @@ export function UnverifiedPayments() {
               </p>
               <p>
                 <strong>Amount:</strong> ₹
-                {payment.isDelegation ? "2200" : "2400"}
+                {payment.isDelegation ? delegationPrice : delegatePrice}
               </p>
               <p>
                 <strong>Image:</strong>{" "}
