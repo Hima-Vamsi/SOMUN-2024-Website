@@ -11,10 +11,11 @@ export function NavbarComponent() {
   const [isOpen, setIsOpen] = useState(false);
 
   const links = [
-    { href: "/", label: "Home" },
-    { href: "/our-team", label: "Our Team" },
-    { href: "/committees", label: "Committees" },
-    { href: "/register", label: "Register" },
+    { href: "/", label: "Home", openInNewTab: false },
+    { href: "/our-team", label: "Our Team", openInNewTab: false },
+    { href: "/committees", label: "Committees", openInNewTab: false },
+    { href: "/register", label: "Register", openInNewTab: false },
+    { href: "https://docs.google.com/spreadsheets/d/1eckbZEW59cY3K9B20CbG7RqHH1rDK9SmikOOYqwgJk4/edit?usp=sharing", label: "Allocations", openInNewTab: true }
   ];
 
   return (
@@ -40,6 +41,7 @@ export function NavbarComponent() {
                 <div key={index} className="mx-4">
                   <Link
                     href={link.href}
+                    target={link.openInNewTab ? "_blank" : "_self"}
                     className="inline-flex items-center px-1 pt-1 text-lg font-medium text-gray-300 hover:text-white"
                   >
                     {link.label}
@@ -80,6 +82,7 @@ export function NavbarComponent() {
                         <li key={index}>
                           <Link
                             href={link.href}
+                            target={link.openInNewTab ? "_blank" : "_self"}
                             className="block py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-[#b70f1e]"
                             onClick={() => setIsOpen(false)}
                           >
