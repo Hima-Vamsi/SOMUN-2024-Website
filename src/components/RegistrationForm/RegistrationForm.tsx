@@ -24,7 +24,6 @@ import {
 import { Progress } from "@/components/ui/progress";
 import Link from "next/link";
 import Sidebar from "./Sidebar";
-import ParticipantType from "./steps/ParticipantType";
 import PersonalDetails from "./steps/PersonalDetails";
 import CommitteeSelection from "./steps/CommitteeSelection";
 import MUNExperience from "./steps/MUNExperience";
@@ -33,7 +32,6 @@ import Review from "./steps/Review";
 import Payment from "./steps/Payment";
 
 const delegateSteps = [
-  "Participant Type",
   "Personal Details",
   "Committee Selection",
   "MUN Experience",
@@ -43,7 +41,6 @@ const delegateSteps = [
 ];
 
 const ipSteps = [
-  "Participant Type",
   "Personal Details",
   "MUN Experience",
   "Dietary Restrictions",
@@ -101,7 +98,7 @@ export default function RegistrationForm() {
     representingSchool: false,
     schoolOrOrganization: "",
     headDelegateName: "",
-    participantType: "",
+    participantType: "delegate",
     ipType: "",
     registrationType:
       registrationRoundMapping[
@@ -175,11 +172,6 @@ export default function RegistrationForm() {
   const isStepValid = () => {
     const steps = formData.participantType === "ip" ? ipSteps : delegateSteps;
     switch (steps[step - 1]) {
-      case "Participant Type":
-        return (
-          formData.participantType !== "" &&
-          (formData.participantType !== "ip" || formData.ipType !== "")
-        );
       case "Personal Details":
         return (
           formData.name && formData.email && formData.phone && formData.school
@@ -323,10 +315,6 @@ export default function RegistrationForm() {
   const renderStep = () => {
     const steps = formData.participantType === "ip" ? ipSteps : delegateSteps;
     switch (steps[step - 1]) {
-      case "Participant Type":
-        return (
-          <ParticipantType formData={formData} setFormData={setFormData} />
-        );
       case "Personal Details":
         return (
           <PersonalDetails formData={formData} setFormData={setFormData} />
