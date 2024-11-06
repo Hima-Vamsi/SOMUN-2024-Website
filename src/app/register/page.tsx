@@ -22,12 +22,14 @@ export default function RegistrationClosed() {
           <p className="text-lg text-gray-400">Thank you for your interest</p>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Button
-            variant="outline"
-            className="border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-gray-100"
-          >
-            <Link href="/">Back to Home</Link>
-          </Button>
+          <Link href="/">
+            <Button
+              variant="outline"
+              className="border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-gray-100"
+            >
+              Back to Home
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </div>
