@@ -6,6 +6,20 @@ import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 
 export default function Countdown() {
   const targetDateUTC = new Date("2024-11-15T03:30:00Z").getTime();
+  const currentTime = Date.now();
+
+  if (currentTime > targetDateUTC) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center bg-gray-800 rounded-lg shadow-lg text-center">
+        <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+          The event has already concluded!
+        </h3>
+        <p className="text-lg sm:text-xl text-gray-300">
+          Thank you for joining us. See you again next year!
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
